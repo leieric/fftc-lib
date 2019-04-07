@@ -6,6 +6,8 @@
 #define FFTC_LIB_FFTC_H
 
 #include <stdlib.h>
+#include <stdio.h>
+#include "cmplx_arith.h"
 
 #define FFT_LENGTH 8       // length of the FFT
 
@@ -18,7 +20,7 @@ int reverseBits(int number);
  * Sorts the input array into bit-reversed order.
  * Assumes input array is of length FFT_LENGTH.
  */
-void sortBitReversed(float *input, float *output);
+void sortBitReversed(float *input, float *output); //CHANGE TO INT
 
 
 

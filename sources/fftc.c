@@ -3,7 +3,7 @@
 //
 
 #include "../headers/fftc.h"
-#include <stdio.h>
+
 
 int reverseBits(int number)
 {
@@ -31,7 +31,6 @@ int reverseBits(int number)
 void sortBitReversed(float *input, float *output)
 {
     int index, i;
-    int Nover2 = FFT_LENGTH >> 1;
     output[0] = input[0];
     for (i = 1; i < FFT_LENGTH; i++)
     {
@@ -39,4 +38,6 @@ void sortBitReversed(float *input, float *output)
         output[i] = input[index];
     }
 }
+
+
 
