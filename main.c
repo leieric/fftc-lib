@@ -1,22 +1,30 @@
-#include <stdio.h>
 #include "headers/fftc.h"
+
+/*
+ * Print complex scalar or vector for debugging purposes.
+ */
+void printCmplx(complex * vector, unsigned length)
+{
+    int i;
+    printf("real: ");
+    for (i = 0; i < length; i++)
+        printf("%f ", vector[i].real);
+    printf("\nimag: ");
+    for (i = 0; i < length; i++)
+        printf("%f ", vector[i].imag);
+    printf("\n");
+}
 
 int main() {
     int i;
-    float test[FFT_LENGTH];
-    for (i = 0; i < FFT_LENGTH; i++)
+    complex test[2];
+    for (i = 0; i < 2; i++)
     {
-        test[i] =  (float) i;
+        test[i].real = 3.0;
+        test[i].imag = 0.0;
     }
-    float testout[FFT_LENGTH];
-    sortBitReversed(test, testout);
-    for (i = 0; i < FFT_LENGTH; i++)
-    {
-        printf("%f ", test[i]);
-    }
-    printf("\n");
-    for (i = 0; i < FFT_LENGTH; i++)
-    {
-        printf("%f ", testout[i]);
-    }
+    complex testout[2];
+    singleBfly(&test[0], &test[1], 1);
+    printCmplx(test, 2);
+    printCmplx(testout, 2);
 }

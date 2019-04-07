@@ -4,18 +4,18 @@
 
 #include "../headers/fftc.h"
 
-int reverseBits(int number)
+unsigned reverseBits(unsigned number)
 {
-    int reversed = 0;
-    int lInd = FFT_LENGTH >> 1;
-    static const int MultiplyDeBruijnBitPosition2[32] =
+    unsigned reversed = 0;
+    unsigned lInd = FFT_LENGTH >> 1;
+    static const unsigned MultiplyDeBruijnBitPosition2[32] =
             {
                     0, 1, 28, 2, 29, 14, 24, 3, 30, 22, 20, 15, 25, 17, 4, 8,
                     31, 27, 13, 23, 21, 19, 16, 7, 26, 12, 18, 6, 11, 5, 10, 9
             };
-    int lIndPos = MultiplyDeBruijnBitPosition2[(unsigned)(lInd * 0x077CB531U) >> 27];
-    int rInd = 1;
-    int value = 0;
+    unsigned lIndPos = MultiplyDeBruijnBitPosition2[(unsigned)(lInd * 0x077CB531U) >> 27];
+    unsigned rInd = 1;
+    unsigned value = 0;
 
     while(lInd != 0) {
         value = ((rInd & number) != 0);
@@ -27,7 +27,7 @@ int reverseBits(int number)
     return reversed;
 }
 
-void sortBitReversed(float *input, float *output)
+void sortBitReversed(complex *input, complex *output)
 {
     int index, i;
     output[0] = input[0];
@@ -38,10 +38,27 @@ void sortBitReversed(float *input, float *output)
     }
 }
 
-void singleBfly(complex *a, complex *b, int k)
+void singleBfly(complex *a, complex *b, unsigned k)
 {
+    complex *a_old;
+    a_old = a;
     *a = CMPLX_ADD(*a, CMPLX_MULT(*b, twiddle(FFT_LENGTH, k)));
-    *b = CMPLX_SUB(*a, CMPLX_MULT(*b, twiddle(FFT_LENGTH, k)));
+    *b = CMPLX_SUB(*a_old, CMPLX_MULT(*b, twiddle(FFT_LENGTH, k)));
 }
+
+void fftStage(complex *input_vec, unsigned num_points)
+{
+    int i, j;
+    int Nover2 = num_points/2;
+    for(i = 0; i < FFT_LENGTH; i += num_points)
+    {
+        //perform computation
+        for(j = i; j < Nover2 + i; j++)
+        {
+            singleBfly(input_vec + j, input_vec + j + Nover2, 3);
+        }
+    }
+}
+
 
 

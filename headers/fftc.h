@@ -9,24 +9,35 @@
 #include <stdio.h>
 #include "cmplx_arith.h"
 
-#define FFT_LENGTH 8       // length of the FFT
+#define FFT_LENGTH 8    // length of the FFT, assume power of 2
 
 /*
  * Helper function for sortBitReversed()
  */
-int reverseBits(int number);
+unsigned reverseBits(unsigned number);
 
 /*
  * Sorts the input array into bit-reversed order.
  * Assumes input array is of length FFT_LENGTH.
  * Very bad O(N^2) complexity. But just need to run once.
  */
-void sortBitReversed(float *input, float *output); //CHANGE TO INT
+void sortBitReversed(complex *input, complex *output); //CHANGE TO INT
 
 /*
  * Single butterfly computation.
  * Output put into given complex structs.
  */
-void singleBfly(complex *a, complex *b, int k);
+void singleBfly(complex *a, complex *b, unsigned k);
+
+
+/*
+ * One stage of the FFT.
+ * Parametrized by FFT_LENGTH and num_points.
+ * Ex: 1st stage in FFT will do FFT_LENGTH/2 2-point
+ * DFT's, so num_points will be 2. Subsequent stages
+ * will combine results of 1st stage, but still uses
+ * the butterfly operation.
+ */
+void fftStage(complex *input_vec, unsigned num_points);
 
 #endif //FFTC_LIB_FFTC_H
