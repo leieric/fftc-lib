@@ -4,7 +4,6 @@
 
 #include "../headers/fftc.h"
 
-
 int reverseBits(int number)
 {
     int reversed = 0;
@@ -39,5 +38,10 @@ void sortBitReversed(float *input, float *output)
     }
 }
 
+void singleBfly(complex *a, complex *b, int k)
+{
+    *a = CMPLX_ADD(*a, CMPLX_MULT(*b, twiddle(FFT_LENGTH, k)));
+    *b = CMPLX_SUB(*a, CMPLX_MULT(*b, twiddle(FFT_LENGTH, k)));
+}
 
 
