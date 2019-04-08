@@ -17,14 +17,18 @@ void printCmplx(complex * vector, unsigned length)
 
 int main() {
     int i;
-    complex test[2];
-    for (i = 0; i < 2; i++)
+    int N = 8; //should match FFT_LENGTH
+    complex test[N];
+    for (i = 0; i < N; i++)
     {
-        test[i].real = 3.0;
+        test[i].real = sin(i);
         test[i].imag = 0.0;
     }
-    complex testout[2];
-    singleBfly(&test[0], &test[1], 1);
-    printCmplx(test, 2);
-    printCmplx(testout, 2);
+//    printCmplx(test, 8);
+    complex testout[N];
+    //--------------------------------
+    fftc(&test, &testout);
+    //--------------------------------
+    printCmplx(test, N);
+    printCmplx(testout, N);
 }

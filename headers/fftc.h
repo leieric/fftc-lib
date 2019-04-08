@@ -40,4 +40,9 @@ void singleBfly(complex *a, complex *b, unsigned k);
  */
 void fftStage(complex *input_vec, unsigned num_points);
 
+/*
+ * Calculates the FFT_LENGTH FFT.
+ */
+void fftc(complex *input_vec, complex *output_vec);
+
 #endif //FFTC_LIB_FFTC_H

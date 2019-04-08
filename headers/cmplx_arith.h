@@ -38,6 +38,9 @@ static inline complex CMPLX_EXP(float theta)
 }
 
 //CHANGE TO INT, WILL NEED PI CONSTANT FOR FIXED POINT
+/*
+ * computes twiddle factor exp(j*2*pi*k/N)
+ */
 static inline complex twiddle(unsigned N, unsigned k)
 {
     return (complex) {cos(2*M_PI*k/N),
