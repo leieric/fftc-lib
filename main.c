@@ -24,11 +24,11 @@ int main() {
         test[i].real = sin(i);
         test[i].imag = 0.0;
     }
-//    printCmplx(test, 8);
+    printCmplx(test, N);
     complex testout[N];
     //--------------------------------
-    fftc(&test, &testout);
+    fftStage(&test, 2);
     //--------------------------------
     printCmplx(test, N);
-    printCmplx(testout, N);
+//    printCmplx(testout, N);
 }
