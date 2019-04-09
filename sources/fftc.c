@@ -1,6 +1,3 @@
-//
-// Created by Eric Lei on 4/6/19.
-//
 
 #include "../headers/fftc.h"
 

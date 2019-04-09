@@ -1,6 +1,3 @@
-//
-// Created by Eric Lei on 4/6/19.
-//
 
 #ifndef FFTC_LIB_CMPLX_ARITH_H
 #define FFTC_LIB_CMPLX_ARITH_H
