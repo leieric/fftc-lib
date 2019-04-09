@@ -43,8 +43,8 @@ static inline complex CMPLX_EXP(float theta)
  */
 static inline complex twiddle(unsigned N, unsigned k)
 {
-    return (complex) {cos(2*M_PI*k/N),
-                      sin(2*M_PI*k/N)};
+    return (complex) {cos(-2*M_PI*k/N),
+                      sin(-2*M_PI*k/N)};
 }
 
 

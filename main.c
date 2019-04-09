@@ -27,8 +27,8 @@ int main() {
     printCmplx(test, N);
     complex testout[N];
     //--------------------------------
-    fftStage(&test, 2);
+    fftc(&test, &testout);
     //--------------------------------
-    printCmplx(test, N);
+    printCmplx(testout, N);
 //    printCmplx(testout, N);
 }
