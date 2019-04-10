@@ -4,6 +4,8 @@
 
 #include <math.h> //FOR FLOATING POINT ONLY, REMOVE LATER
 
+
+
 typedef struct {
     float real; //CHANGE TO INT
     float imag; //CHANGE TO INT
