@@ -3,6 +3,7 @@
 #define FFTC_LIB_CMPLX_ARITH_FIXEDPT_H
 
 #include <stdint.h>
+#include "twiddle.dat"
 
 static inline int16_t create_FP(int8_t int_part, int8_t frac_part)
 {
@@ -57,12 +58,30 @@ static inline int32_t CSUB_FIXEDP(int32_t z1, int32_t z2)
     return (int32_t) ((real << 16) + imag);
 }
 
-//TODO
-static inline int32_t TWIDDLE_FIXEDP(int N, int k)
+static inline void BFLY_FIXEDP(int32_t *a, int32_t *b, unsigned k, unsigned N)
 {
-    int16_t real = 0;
-    int16_t imag = 0;
-    return (int32_t) ((real << 16) + imag);
+    int32_t a_old = *a;
+    *a = CADD_FIXEDP(*a, CMULT_FIXEDP(*b, twiddles[(1024 - (k*1024)/N) % 1024])); //should compile into shifts
+    *b = CSUB_FIXEDP(a_old, CMULT_FIXEDP(*b, twiddles[(1024 - (k*1024)/N) % 1024]));
+}
+
+static inline void BFLY(int32_t *a, int32_t *b, unsigned k, unsigned N)
+{
+    int32_t real_a, imag_a, real_b, imag_b;
+    int32_t twiddle =  twiddles[(k*1024)/N];
+    real_a = GET_REAL(*b) * GET_REAL(twiddle) - GET_IMAG(*b) * GET_IMAG(twiddle);
+    imag_a = GET_REAL(*b) * GET_IMAG(twiddle) + GET_IMAG(*b) * GET_REAL(twiddle);
+    real_a += (GET_REAL(*a) & 0xffffffff) << 8;
+    imag_a += (GET_IMAG(*a) & 0xffffffff) << 8;
+
+    real_b = GET_REAL(*b) * GET_REAL(twiddle) - GET_IMAG(*b) * GET_IMAG(twiddle);
+    imag_b = GET_REAL(*b) * GET_IMAG(twiddle) + GET_IMAG(*b) * GET_REAL(twiddle);
+    real_b -= (GET_REAL(*a) & 0xffffffff) << 8;
+    imag_b -= (GET_IMAG(*a) & 0xffffffff) << 8;
+
+    *a =  ((real_a << 8) & 0xffff0000) + ((imag_a >> 8) & 0xffff); //truncate and pack Re, Im parts of a and write to A
+    *b =  ((real_b << 8) & 0xffff0000) + ((imag_b >> 8) & 0xffff);
+
 }
 
 
