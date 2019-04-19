@@ -6,7 +6,7 @@ N = 1024;
 
 
 
-[A,B] = fftc_lib.singleBfly(3+1i, 5+1i, 50, N)
+[A,B] = fftc_lib.singleBfly(, 3+2j, 3, N);
 
 % tic
 % for i=1:500

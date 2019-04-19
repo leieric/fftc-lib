@@ -3,11 +3,16 @@
 #define FFTC_LIB_CMPLX_ARITH_FIXEDPT_H
 
 #include <stdint.h>
-#include "twiddle.dat"
+#include "twiddle.h"
 
 static inline int16_t create_FP(int8_t int_part, int8_t frac_part)
 {
     return (int16_t) ((int_part << 8) + frac_part);
+}
+
+static inline int32_t create_CMPLX(int16_t real, int16_t imag)
+{
+    return (int32_t) ((real << 16) + imag);
 }
 
 static inline int16_t GET_REAL(int32_t val)
@@ -74,10 +79,9 @@ static inline void BFLY(int32_t *a, int32_t *b, unsigned k, unsigned N)
     real_a += (GET_REAL(*a) & 0xffffffff) << 8;
     imag_a += (GET_IMAG(*a) & 0xffffffff) << 8;
 
-    real_b = GET_REAL(*b) * GET_REAL(twiddle) - GET_IMAG(*b) * GET_IMAG(twiddle);
-    imag_b = GET_REAL(*b) * GET_IMAG(twiddle) + GET_IMAG(*b) * GET_REAL(twiddle);
-    real_b -= (GET_REAL(*a) & 0xffffffff) << 8;
-    imag_b -= (GET_IMAG(*a) & 0xffffffff) << 8;
+    //switch
+    real_b = (((GET_REAL(*a) & 0xffffffff) << 8) - real_a);
+    imag_b = (((GET_IMAG(*a) & 0xffffffff) << 8) - imag_a);
 
     *a =  ((real_a << 8) & 0xffff0000) + ((imag_a >> 8) & 0xffff); //truncate and pack Re, Im parts of a and write to A
     *b =  ((real_b << 8) & 0xffff0000) + ((imag_b >> 8) & 0xffff);
