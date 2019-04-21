@@ -1,11 +1,9 @@
-//#include "headers/fftc_fixedpt.h"
 #include "headers/cmplx_arith_fixedpt.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <math.h>
 #include "headers/test_fixed.h"
-
 
 float fixed2float(int16_t fixed)
 {
@@ -65,7 +63,7 @@ int main() {
     int k;
     for (k = 0; k < 4; k++) {
         char dir[100];
-        sprintf(dir, "../data/test_%d_%d.csv", k, 128);
+        sprintf(dir, "../data/testBfly_%d_%d.csv", k, 128);
         fp = fopen(dir,"w");
         test_bfly(in_a, in_b, out_a, out_b, k, 128, num_test);
         fprintf(fp, "%d, %d\n", k, 128);
@@ -83,23 +81,16 @@ int main() {
     free(in_b);
     free(out_a);
     free(out_b);
-//    fclose(fp);
 
-
-
-
-
-
-
-    int32_t a = create_CMPLX(create_FP(3, 0), create_FP(1, 0));
-    int32_t b = create_CMPLX(create_FP(5, 0), create_FP(1, 0));
-
-    printCmplx(a);
-    printCmplx(b);
-
-    BFLY(&a, &b, 50, 128);
-    printCmplx(a);
-    printCmplx(b);
+//    int32_t a = create_CMPLX(create_FP(3, 0), create_FP(1, 0));
+//    int32_t b = create_CMPLX(create_FP(5, 0), create_FP(1, 0));
+//
+//    printCmplx(a);
+//    printCmplx(b);
+//
+//    BFLY(&a, &b, 50, 128);
+//    printCmplx(a);
+//    printCmplx(b);
 
 
 }
