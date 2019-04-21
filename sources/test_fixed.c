@@ -94,27 +94,27 @@ void fft_tester(unsigned N, unsigned num_test)
 
     for(j = 0; j < num_test; j++) {
         for (i = 0; i < N; i++) {
-            in[i] = rand() - 2147483647 / 16;
+            in[i] = rand() - 2147483647 / 64;
         }
 
         fftc_fixedp(in, out, N);
 
-        for (i = 0; i < N; i++) {
+        for (i = 0; i < N-1; i++) {
             fprintf(fp, "%f, ", fixed2float(GET_REAL(in[i])));
         }
-        fprintf(fp, "%\n");
-        for (i = 0; i < N; i++) {
+        fprintf(fp, "%f\n", fixed2float(GET_REAL(in[N-1])));
+        for (i = 0; i < N-1; i++) {
             fprintf(fp, "%f, ", fixed2float(GET_IMAG(in[i])));
         }
-        fprintf(fp, "%\n");
-        for (i = 0; i < N; i++) {
+        fprintf(fp, "%f\n", fixed2float(GET_IMAG(in[N-1])));
+        for (i = 0; i < N-1; i++) {
             fprintf(fp, "%f, ", fixed2float(GET_REAL(out[i])));
         }
-        fprintf(fp, "%\n");
-        for (i = 0; i < N; i++) {
+        fprintf(fp, "%f\n", fixed2float(GET_REAL(out[N-1])));
+        for (i = 0; i < N-1; i++) {
             fprintf(fp, "%f, ", fixed2float(GET_IMAG(out[i])));
         }
-        fprintf(fp, "%\n");
+        fprintf(fp, "%f\n", fixed2float(GET_IMAG(out[N-1])));
     }
     fclose(fp);
 
