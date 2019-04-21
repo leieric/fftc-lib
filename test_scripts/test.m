@@ -1,23 +1,22 @@
-clear
+clear;
+filename = "test.csv";
+data = csvread(filename);
 
-N = 1024;
-% t = (0:N-1)';
-% x = sin(t);
+[m, n] = size(data);
+k = data(1, 1);
+N = data(1, 2);
+for i = 2:m+1
+    a = data(i, 1) + j*data(i, 2);
+    b = data(i, 3) + j*data(i, 4);
+    A = data(i, 5) + j*data(i, 6);
+    B = data(i, 7) + j*data(i, 8);
+    
+    [A_float, B_float] = fftc_lib.singleBfly(a, b, k, N);
+    error(i, 1) = (A_float - A)/A_float;
+    error(i, 2) = (B_float - B)/B_float;
+end
 
 
 
-[A,B] = fftc_lib.singleBfly(3+1i, 5+1i, 50, N)
 
-% tic
-% for i=1:500
-%     xout = fftc_lib.fftc(x, N);
-% end
-% timeFFT = toc
-% tic
-% for i=1:500
-%     xoutdft = fftc_lib.slow_dft(x,N);
-% end
-% timeDFT = toc
-% xoutfft = fft(x);
-% 
-% error = mean(abs(xout - xoutfft))
+
