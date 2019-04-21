@@ -44,7 +44,7 @@ void test_bfly(int32_t * in_a, int32_t *in_b, int32_t * out_a, int32_t *out_b, u
 
 int main() {
     FILE *fp;
-    fp = fopen("../data/test.txt","w");
+
     if (fp == NULL)
     {
         printf("Error opening file!\n");
@@ -62,20 +62,28 @@ int main() {
     assert(out_b != NULL);
 
     // Test and write to file
-    test_bfly(in_a, in_b, out_a, out_b, 3, 128, num_test);
-    fprintf(fp, "%d, %d\n", 3, 128);
-    for (i = 0; i < num_test; i++)
-    {
-        fprintf(fp, "%f, %f, %f, %f, %f, %f, %f, %f\n", fixed2float(GET_REAL(in_a[i])), fixed2float(GET_IMAG(in_a[i])),
-                fixed2float(GET_REAL(in_b[i])), fixed2float(GET_IMAG(in_b[i])), fixed2float(GET_REAL(out_a[i])),
-                fixed2float(GET_IMAG(out_a[i])), fixed2float(GET_REAL(out_b[i])), fixed2float(GET_IMAG(out_b[i])));
+    int k;
+    for (k = 0; k < 4; k++) {
+        char dir[100];
+        sprintf(dir, "../data/test_%d_%d.csv", k, 128);
+        fp = fopen(dir,"w");
+        test_bfly(in_a, in_b, out_a, out_b, k, 128, num_test);
+        fprintf(fp, "%d, %d\n", k, 128);
+        for (i = 0; i < num_test; i++) {
+            printf("%d\n", i);
+            fprintf(fp, "%f, %f, %f, %f, %f, %f, %f, %f\n", fixed2float(GET_REAL(in_a[i])),
+                    fixed2float(GET_IMAG(in_a[i])),
+                    fixed2float(GET_REAL(in_b[i])), fixed2float(GET_IMAG(in_b[i])), fixed2float(GET_REAL(out_a[i])),
+                    fixed2float(GET_IMAG(out_a[i])), fixed2float(GET_REAL(out_b[i])), fixed2float(GET_IMAG(out_b[i])));
+        }
+        fclose(fp);
     }
 
     free(in_a);
     free(in_b);
     free(out_a);
     free(out_b);
-    fclose(fp);
+//    fclose(fp);
 
 
 
