@@ -13,6 +13,8 @@ float fixed2float(int16_t fixed);
 
 void bfly_tester(unsigned N, unsigned num_test);
 
+void fft_tester(unsigned N, unsigned num_test);
+
 
 
 

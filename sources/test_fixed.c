@@ -3,10 +3,13 @@
 //
 
 #include "../headers/test_fixed.h"
+#include "../headers/fftc_fixedpt.h"
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
 #include <assert.h>
+
+#define FIXED2FLOAT(x) (((float)(x)) / (1 << 8))
 
 float fixed2float(int16_t fixed)
 {
@@ -68,5 +71,52 @@ void bfly_tester(unsigned N, unsigned num_test) {
         }
         fclose(fp);
     }
+}
+
+void fft_tester(unsigned N, unsigned num_test)
+{
+    int32_t* in = (int32_t*) malloc(N * sizeof(int32_t));
+    int32_t* out = (int32_t*) malloc(N * sizeof(int32_t));
+    assert(in != NULL);
+    assert(out != NULL);
+    int i, j;
+
+    FILE *fp;
+    if (fp == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    char dir[100];
+    sprintf(dir, "../data/fftTest_%d.csv", N);
+    fp = fopen(dir, "w");
+    fprintf(fp, "%d\n", N);
+
+    for(j = 0; j < num_test; j++) {
+        for (i = 0; i < N; i++) {
+            in[i] = rand() - 2147483647 / 4;
+        }
+
+        fftc_fixedp(in, out, N);
+
+        for (i = 0; i < N; i++) {
+            fprintf(fp, "%f, ", fixed2float(GET_REAL(in[i])));
+        }
+        fprintf(fp, "%\n");
+        for (i = 0; i < N; i++) {
+            fprintf(fp, "%f, ", fixed2float(GET_IMAG(in[i])));
+        }
+        fprintf(fp, "%\n");
+        for (i = 0; i < N; i++) {
+            fprintf(fp, "%f, ", fixed2float(GET_REAL(out[i])));
+        }
+        fprintf(fp, "%\n");
+        for (i = 0; i < N; i++) {
+            fprintf(fp, "%f, ", fixed2float(GET_IMAG(out[i])));
+        }
+        fprintf(fp, "%\n");
+    }
+    fclose(fp);
+
 }
 
