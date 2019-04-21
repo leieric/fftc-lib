@@ -8,6 +8,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <assert.h>
+#include <stdint.h>
 
 #define FIXED2FLOAT(x) (((float)(x)) / (1 << 8))
 
@@ -94,7 +95,8 @@ void fft_tester(unsigned N, unsigned num_test)
 
     for(j = 0; j < num_test; j++) {
         for (i = 0; i < N; i++) {
-            in[i] = rand() - 2147483647 / 64;
+
+            in[i] = create_CMPLX((int16_t) rand() % (1023 + 1 + 1024) - 1024, (int16_t) rand() % (1023 + 1 + 1024) - 1024);
         }
 
         fftc_fixedp(in, out, N);
