@@ -1,7 +1,6 @@
 clear;
 currentDir = pwd;
-idx = strfind(currentDir, '\');
-filename = [currentDir(1:idx(end)) 'data\test_3_128.csv'];
+filename = [currentDir, '\..\data\test_3_128.csv'];
 data = csvread(filename);
 
 [m, n] = size(data);
@@ -13,9 +12,11 @@ for i = 2:m
     A = data(i, 5) + j*data(i, 6);
     B = data(i, 7) + j*data(i, 8);
     
+    % Floating point values
     [A_float, B_float] = fftc_lib.singleBfly(a, b, k, N);
     A_float_mag = abs(A_float);
     B_float_mag = abs(B_float);
+    
     error(i, 1) = (A_float_mag - abs(A))/A_float_mag;
     error(i, 2) = (B_float_mag - abs(B))/B_float_mag;
 end
