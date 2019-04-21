@@ -11,6 +11,7 @@
 #include <stdint.h>
 
 #define FIXED2FLOAT(x) (((float)(x)) / (1 << 8))
+#define FLOAT2FIXED(x) ((int16_t)((x) * (1 << 8)))
 
 float fixed2float(int16_t fixed)
 {
@@ -89,15 +90,15 @@ void fft_tester(unsigned N, unsigned num_test)
         exit(1);
     }
     char dir[100];
-    sprintf(dir, "../data/fftTest_%d.csv", N);
+    sprintf(dir, "../data/fftTestSine_%d.csv", N);
     fp = fopen(dir, "w");
     fprintf(fp, "%d\n", N);
 
     int max_int = 512;
     for(j = 0; j < num_test; j++) {
         for (i = 0; i < N; i++) {
-
-            in[i] = create_CMPLX((int16_t) rand() % (2*max_int) - max_int, (int16_t) rand() % (2*max_int) - max_int);
+//            in[i] = create_CMPLX((int16_t) rand() % (2*max_int) - max_int, (int16_t) rand() % (2*max_int) - max_int);
+            in[i] = create_CMPLX(FLOAT2FIXED(2*sin(i)), 0);
         }
 
         fftc_fixedp(in, out, N);
