@@ -93,10 +93,11 @@ void fft_tester(unsigned N, unsigned num_test)
     fp = fopen(dir, "w");
     fprintf(fp, "%d\n", N);
 
+    int max_int = 512;
     for(j = 0; j < num_test; j++) {
         for (i = 0; i < N; i++) {
 
-            in[i] = create_CMPLX((int16_t) rand() % (1023 + 1 + 1024) - 1024, (int16_t) rand() % (1023 + 1 + 1024) - 1024);
+            in[i] = create_CMPLX((int16_t) rand() % (2*max_int) - max_int, (int16_t) rand() % (2*max_int) - max_int);
         }
 
         fftc_fixedp(in, out, N);

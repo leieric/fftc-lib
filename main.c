@@ -31,8 +31,8 @@ int main() {
 //    }
 
 
-    fft_tester(8, 10);
-//    fft_tester(32, 100);
+//    fft_tester(16, 10);
+    fft_tester(1024, 10);
 //    fft_tester(64, 100);
 //    fft_tester(128, 100);
 //    fft_tester(256, 100);
