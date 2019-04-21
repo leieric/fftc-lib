@@ -94,7 +94,7 @@ void fft_tester(unsigned N, unsigned num_test)
 
     for(j = 0; j < num_test; j++) {
         for (i = 0; i < N; i++) {
-            in[i] = rand() - 2147483647 / 4;
+            in[i] = rand() - 2147483647 / 16;
         }
 
         fftc_fixedp(in, out, N);
