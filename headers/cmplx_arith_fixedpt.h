@@ -72,16 +72,16 @@ static inline void BFLY_FIXEDP(int32_t *a, int32_t *b, unsigned k, unsigned N)
 
 static inline void BFLY(int32_t *a, int32_t *b, unsigned k, unsigned N)
 {
-    int32_t real_a, imag_a, real_b, imag_b;
+    int32_t real_a, imag_a, real_b, imag_b, twidprod_real, twidprod_imag;
     int32_t twiddle =  twiddles[(k*1024)/N];
-    real_a = GET_REAL(*b) * GET_REAL(twiddle) - GET_IMAG(*b) * GET_IMAG(twiddle);
-    imag_a = GET_REAL(*b) * GET_IMAG(twiddle) + GET_IMAG(*b) * GET_REAL(twiddle);
-    real_a += (GET_REAL(*a) & 0xffffffff) << 8;
-    imag_a += (GET_IMAG(*a) & 0xffffffff) << 8;
+    twidprod_real = GET_REAL(*b) * GET_REAL(twiddle) - GET_IMAG(*b) * GET_IMAG(twiddle);
+    twidprod_imag = GET_REAL(*b) * GET_IMAG(twiddle) + GET_IMAG(*b) * GET_REAL(twiddle);
+    real_a = twidprod_real + ((GET_REAL(*a) & 0xffffffff) << 8);
+    imag_a = twidprod_imag + ((GET_IMAG(*a) & 0xffffffff) << 8);
 
     //switch
-    real_b = (((GET_REAL(*a) & 0xffffffff) << 8) - real_a);
-    imag_b = (((GET_IMAG(*a) & 0xffffffff) << 8) - imag_a);
+    real_b = (((GET_REAL(*a) & 0xffffffff) << 8) - twidprod_real);
+    imag_b = (((GET_IMAG(*a) & 0xffffffff) << 8) - twidprod_imag);
 
     *a =  ((real_a << 8) & 0xffff0000) + ((imag_a >> 8) & 0xffff); //truncate and pack Re, Im parts of a and write to A
     *b =  ((real_b << 8) & 0xffff0000) + ((imag_b >> 8) & 0xffff);
