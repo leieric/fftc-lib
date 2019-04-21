@@ -3,7 +3,7 @@
 #define FFTC_LIB_CMPLX_ARITH_FIXEDPT_H
 
 #include <stdint.h>
-#include "twiddle.h"
+#include "twiddles.h"
 
 static inline int16_t create_FP(int8_t int_part, int8_t frac_part)
 {

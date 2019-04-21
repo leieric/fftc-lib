@@ -5,9 +5,11 @@
 #ifndef FFTC_LIB_FFTC_FIXEDPT_H
 #define FFTC_LIB_FFTC_FIXEDPT_H
 
-#include <stdlib.h>
-#include <stdio.h>
 #include "cmplx_arith_fixedpt.h"
+
+unsigned reverseBits(unsigned number, unsigned N);
+
+void sortBitReversed(int32_t *input, int32_t *output, unsigned N);
 
 /*
  * One stage of the FFT.
