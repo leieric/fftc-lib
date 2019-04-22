@@ -124,3 +124,45 @@ void fft_tester(unsigned N, unsigned num_test)
 
 }
 
+void fft_test_data(unsigned N, unsigned num_test)
+{
+    int32_t* in = (int32_t*) malloc(N * sizeof(int32_t));
+    int32_t* out = (int32_t*) malloc(N * sizeof(int32_t));
+    assert(in != NULL);
+    assert(out != NULL);
+    int i, j;
+
+    FILE *fp;
+    if (fp == NULL)
+    {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+    char dir[100];
+    sprintf(dir, "../data/fftTestData_%d.dat", N);
+    fp = fopen(dir, "w");
+    fprintf(fp, "%d\n", N);
+
+    int max_int = 512;
+    for(j = 0; j < num_test; j++) {
+        for (i = 0; i < N; i++) {
+            in[i] = create_CMPLX((int16_t) rand() % (2*max_int) - max_int, (int16_t) rand() % (2*max_int) - max_int);
+//            in[i] = create_CMPLX(FLOAT2FIXED(2*sin(i)), 0);
+        }
+
+        fftc_fixedp(in, out, N);
+
+        for (i = 0; i < N; i++)
+        {
+            fprintf(fp, "%d,\n", in[i]);
+        }
+        fprintf(fp,"\n\n\n");
+        for (i = 0; i < N; i++)
+        {
+            fprintf(fp, "%d,\n", out[i]);
+        }
+    }
+    fclose(fp);
+
+}
+

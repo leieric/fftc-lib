@@ -15,6 +15,8 @@ void bfly_tester(unsigned N, unsigned num_test);
 
 void fft_tester(unsigned N, unsigned num_test);
 
+void fft_test_data(unsigned N, unsigned num_test);
+
 
 
 
